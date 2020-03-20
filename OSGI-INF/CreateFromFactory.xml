@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="ni.idempiere.ui.swing.create.from.factory">
+   <implementation class="ni.adempiere.webui.factory.CreateFromFactory"/>
+   <service>
+      <provide interface="org.compiere.grid.ICreateFromFactory"/>
+   </service>
+</scr:component>

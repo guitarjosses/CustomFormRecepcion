@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Customs Forms Idempiere NI
+Bundle-SymbolicName: ni.idempiere.ui.swing;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: ni.idempiere.ui.swing
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.adempiere.base;bundle-version="3.1.0",
+ org.adempiere.plugin.utils;bundle-version="3.1.0",
+ org.adempiere.ui.zk;bundle-version="3.1.0",
+ org.zkoss.zk.library;bundle-version="7.0.7",
+ org.adempiere.ui;bundle-version="3.1.0"
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.adempiere.plugin.utils.AdempiereActivator
+Service-Component: OSGI-INF/FormFactory.xml,
+ OSGI-INF/CreateFromFactory.xml
+Export-Package: ni.adempiere.webui.apps.form,
+ ni.adempiere.webui.factory
