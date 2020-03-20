@@ -1,16 +1,3 @@
-/******************************************************************************
- * Copyright (C) 2009 Low Heng Sin                                            *
- * Copyright (C) 2009 Idalica Corporation                                     *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *****************************************************************************/
 package ni.compiere.grid;
 
 import java.math.BigDecimal;
@@ -22,6 +9,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.apps.IStatusBar;
+import org.compiere.grid.CreateFrom;
 import org.compiere.grid.ICreateFrom;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.GridField;
@@ -34,8 +22,8 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
-public abstract class CreateFrom implements ICreateFrom
-{
+public abstract class CreateFrom1 extends CreateFrom implements ICreateFrom {
+	
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
 
@@ -53,14 +41,14 @@ public abstract class CreateFrom implements ICreateFrom
 	
 	protected boolean isSOTrx = false;
 
-	public CreateFrom(GridTab gridTab) {
-		this.gridTab = gridTab;
-		
+	public CreateFrom1(GridTab gridTab) {
+		super(gridTab);
+
 		GridField field = gridTab.getField("IsSOTrx"); 
 		if (field != null) 
 			isSOTrx = (Boolean) field.getValue(); 
 		else 
-			isSOTrx = "Y".equals(Env.getContext(Env.getCtx(), gridTab.getWindowNo(), "IsSOTrx"));
+			isSOTrx = "Y".equals(Env.getContext(Env.getCtx(), gridTab.getWindowNo(), "IsSOTrx"));		
 	}
 
 	public abstract boolean dynInit() throws Exception;
@@ -107,12 +95,11 @@ public abstract class CreateFrom implements ICreateFrom
 			+ "WHERE o.C_BPartner_ID=? AND o.IsSOTrx=? AND o.DocStatus IN ('CL','CO')"
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
-				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) "
-				  + " AND ol.M_Warehouse_ID=?"); //Linea agregada por JB
-		/*if(sameWarehouseOnly) //Comentariado por JB
+				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) ");
+		if(sameWarehouseOnly)
 		{
 			sql = sql.append(" AND o.M_Warehouse_ID=? ");
-		}*/
+		}
 		sql = sql.append("ORDER BY o.DateOrdered,o.DocumentNo");
 		//
 		PreparedStatement pstmt = null;
@@ -122,12 +109,11 @@ public abstract class CreateFrom implements ICreateFrom
 			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
 			pstmt.setString(2, isSOTrxParam);
-			/*if(sameWarehouseOnly) //Comentariado por JB
+			if(sameWarehouseOnly)
 			{
 				//only active for material receipts
 				pstmt.setInt(3, getM_Warehouse_ID());
-			}*/
-			pstmt.setInt(3, getM_Warehouse_ID()); //Agregado por JB
+			}
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -265,4 +251,5 @@ public abstract class CreateFrom implements ICreateFrom
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
 }

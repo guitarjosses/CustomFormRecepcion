@@ -23,7 +23,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.apps.IStatusBar;
-import ni.compiere.grid.CreateFrom;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.GridTab;
 import org.compiere.model.MInOut;
@@ -53,7 +52,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1896947 ] Generate invoice from Order error
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
-public abstract class CreateFromShipment extends CreateFrom 
+public abstract class CreateFromShipment extends CreateFrom1 
 {
 	/**  Loaded Invoice             */
 	private MInvoice		m_invoice = null;
